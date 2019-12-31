@@ -18,7 +18,7 @@ class CalendarStylistListItem
   def order_index
     return -1 unless @stylist.active
 
-    @stylist.salon.has_manual_order? ? @stylist.manual_position : @stylist.alphabetical_position
+    salon_has_manual_order? ? @stylist.manual_position : @stylist.alphabetical_position
   end
 
   private
@@ -34,7 +34,11 @@ class CalendarStylistListItem
   end
 
   def attribute_by_which_to_order_stylists
-    salon.has_manual_order? ? "stylist.manual_order_index" : "LOWER(stylist.name)"
+    salon_has_manual_order? ? 'stylist.manual_order_index' : 'LOWER(stylist.name)'
+  end
+
+  def salon_has_manual_order?
+    salon.stylists.sum(:manual_order_index) > 0
   end
 
   def salon

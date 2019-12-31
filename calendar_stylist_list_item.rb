@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Calendar
+class CalendarStylistListItem
   def initialize(stylist)
     @stylist = stylist
   end

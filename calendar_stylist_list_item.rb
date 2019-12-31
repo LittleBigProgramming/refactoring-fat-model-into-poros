@@ -5,6 +5,14 @@ class CalendarStylistListItem
     @stylist = stylist
   end
 
+  def order_index
+    return -1 unless @stylist.active
+
+    salon_has_manual_order? ? @stylist.manual_position : @stylist.alphabetical_position
+  end
+
+  private
+
   def manual_position
     @stylist.new_record? ? highest_manual_order_index + 1 : @stylist.manual_order_index
   end
@@ -14,14 +22,6 @@ class CalendarStylistListItem
     stylist_names << @stylist.name unless stylist_names.member? @stylist.name
     stylist_names.map(&:downcase).sort!.index(@stylist.name.downcase)
   end
-
-  def order_index
-    return -1 unless @stylist.active
-
-    salon_has_manual_order? ? @stylist.manual_position : @stylist.alphabetical_position
-  end
-
-  private
 
   def highest_manual_order_index
     salon.stylists.map(&:manual_order_index).max

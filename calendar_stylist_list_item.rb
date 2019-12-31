@@ -6,7 +6,7 @@ class CalendarStylistListItem
   end
 
   def manual_position
-    @stylist.new_record? ? salon.highest_manual_order_index + 1 : @stylist.manual_order_index
+    @stylist.new_record? ? highest_manual_order_index + 1 : @stylist.manual_order_index
   end
 
   def alphabetical_position
@@ -22,6 +22,10 @@ class CalendarStylistListItem
   end
 
   private
+
+  def highest_manual_order_index
+    salon.stylists.map(&:manual_order_index).max
+  end
 
   def salon
     @stylist.salon
